@@ -3,7 +3,7 @@ import { useState } from 'react';
 const Outerbox = () => {
     return(
         <div className='border-solid text-red-500'>
-            Hello sfasfasdfasdf
+            Hello sfasfasdfasddfssdfsdf
         </div>
     )
 }
