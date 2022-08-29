@@ -1,9 +1,15 @@
 import type { NextPage } from 'next';
-import Outerbox from '../components/Outerbox';
+import { Layout } from '../components/Layout';
+import TrelloList from '../components/TrelloList';
 
-const Home: NextPage = () => {
+const Home: NextPage = (props: any) => {
   return (
-    <Outerbox></Outerbox>
+    <div className='bg-slate-300 h-screen w-auto'>
+      <Layout>
+        {props.children}
+      </Layout>
+    </div>
+    
   )
 }
 
