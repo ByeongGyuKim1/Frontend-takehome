@@ -1,43 +1,54 @@
 import { useState } from 'react';
 import { Header } from './Header';
-import { Footer } from './Footer';
-import { Item } from './Item';
+import { TrelloCard } from './TrelloCard';
 
 
-const TrelloList = (props: any) => {
-    const array2d = () => {
-        const ROW = 1;
-        const COLUMN = 1;
-        const arr = new Array(ROW); 
-        for (var i = 0; i < COLUMN; i++) {
-            arr[i] = new Array(1);
-        }
-        arr[0][0] = 1;
-        return arr;
-    }
-
-    const [countItem, setCountItem] = useState(array2d);
-    let countArr = [...countItem];
-    let counter = countArr.slice(-1)[0];
-
-    function addItem(){
-        counter += 1;
-        countArr.push(counter);
-        setCountItem(countArr);
-    }
+const TrelloList = (props: any) => { //deleteList , generateId, listsState, setListsState 상속
+    const cards = [
+        {id: 1, listid: 1, content: 'card1'}
+    ];
+    const [cardsState, setCardsState] = useState(cards);
     
+    function addCard(list: number){
+        setCardsState([
+            ...cardsState,
+            {id: props.generateId(cardsState), listid: list, content: 'new card'}
+        ]);
+        props.setFuncheck(props.funcheck + '1');
+    }
+
+    function updateCard(cardid: number, listid: number, newcontent: string){
+        for(var i = 0; i < cardsState.length; i++){
+            if(cardsState[i].id === cardid && cardsState[i].listid === listid){
+                cardsState[i] = {id: cardid, listid: listid, content: newcontent}
+                break;
+            }
+        }
+        props.setFuncheck(props.funcheck + '1');
+    }
+
+    function deleteCard(cardid: number){
+        for(var i = 0; i < cardsState.length; i++){
+            if(cardsState[i].id === cardid){
+                cardsState.splice(i, 1);
+                i--;
+            }
+        }
+    }
+
+    function moveCard(){
+
+    }
+
     return(
         <>
-            {props.countList.map(function(i: any){
-                return (<div key={i} className='ml-1'>
+            {props.listsState.map(function(list: any, index: any){
+                return(<div key={index} className='ml-1'>
                     <div className='box-border h-auto w-[230px] border-2 rounded bg-slate-400'>
-                        <Header deleteList={props.deleteList}/>
-                        <div>
-                            {props.children}
-                        </div>
-                        <Item countItem={countItem}/>
+                        <Header deleteList={props.deleteList} updateList={props.updateList} list={list} listsState={props.listsState} setListsState={props.setListsState}/>
+                        <TrelloCard listsState={props.listsState} updateCard={updateCard} filtercards={cardsState.filter((num) => num.listid === list.id)} cardsState={cardsState} setCardsState={setCardsState} />
                         <div className='p-1 ml-[10px] mb-[5px]'>
-                            <button onClick={addItem}>
+                            <button onClick={() => addCard(list.id)}>
                                 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="Capa_1" width='13px' height='13px' viewBox="0 0 45.402 45.402">
                                     <path d="M41.267,18.557H26.832V4.134C26.832,1.851,24.99,0,22.707,0c-2.283,0-4.124,1.851-4.124,4.135v14.432H4.141   c-2.283,0-4.139,1.851-4.138,4.135c-0.001,1.141,0.46,2.187,1.207,2.934c0.748,0.749,1.78,1.222,2.92,1.222h14.453V41.27   c0,1.142,0.453,2.176,1.201,2.922c0.748,0.748,1.777,1.211,2.919,1.211c2.282,0,4.129-1.851,4.129-4.133V26.857h14.435   c2.283,0,4.134-1.867,4.133-4.15C45.399,20.425,43.548,18.557,41.267,18.557z"/>
                                 </svg>
