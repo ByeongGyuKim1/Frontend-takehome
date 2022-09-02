@@ -14,7 +14,6 @@ const TrelloList = (props: any) => { //deleteList , generateId, listsState, setL
             ...cardsState,
             {id: props.generateId(cardsState), listid: list, content: 'new card'}
         ]);
-        props.setFuncheck(props.funcheck + '1');
     }
 
     function updateCard(cardid: number, listid: number, newcontent: string){
@@ -24,7 +23,6 @@ const TrelloList = (props: any) => { //deleteList , generateId, listsState, setL
                 break;
             }
         }
-        props.setFuncheck(props.funcheck + '1');
     }
 
     function deleteCard(cardid: number){
@@ -36,7 +34,7 @@ const TrelloList = (props: any) => { //deleteList , generateId, listsState, setL
         }
     }
 
-    function moveCard(){
+    function moveCard(direction: string, presentlistnum: number){
 
     }
 
@@ -46,7 +44,7 @@ const TrelloList = (props: any) => { //deleteList , generateId, listsState, setL
                 return(<div key={index} className='ml-1'>
                     <div className='box-border h-auto w-[230px] border-2 rounded bg-slate-400'>
                         <Header deleteList={props.deleteList} updateList={props.updateList} list={list} listsState={props.listsState} setListsState={props.setListsState}/>
-                        <TrelloCard listsState={props.listsState} updateCard={updateCard} filtercards={cardsState.filter((num) => num.listid === list.id)} cardsState={cardsState} setCardsState={setCardsState} />
+                        <TrelloCard moveCard={moveCard} listsState={props.listsState} updateCard={updateCard} filtercards={cardsState.filter((num) => num.listid === list.id)} cardsState={cardsState} setCardsState={setCardsState} />
                         <div className='p-1 ml-[10px] mb-[5px]'>
                             <button onClick={() => addCard(list.id)}>
                                 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="Capa_1" width='13px' height='13px' viewBox="0 0 45.402 45.402">

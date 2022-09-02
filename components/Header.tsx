@@ -2,7 +2,6 @@ import { useState } from 'react';
 
 export const Header = (props: any) => {
     const [title, setTitle] = useState<string>(props.list.title);
-    console.log(props.listsState.length);
     const changeTitle = (event: any) => {
         setTitle(event.target.value);
         props.updateList(props.list.id, title);
